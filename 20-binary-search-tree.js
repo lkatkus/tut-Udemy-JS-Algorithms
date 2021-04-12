@@ -240,19 +240,105 @@ let tree = new BinarySearchTree();
 // tree.root.right = new Node(15);
 // tree.root.left = new Node(7);
 
-tree.insertIter(10);
-tree.insertIter(6);
-tree.insertIter(15);
-tree.insertIter(3);
-tree.insertIter(8);
-tree.insertIter(20);
+// tree.insertIter(10);
+// tree.insertIter(6);
+// tree.insertIter(15);
+// tree.insertIter(3);
+// tree.insertIter(8);
+// tree.insertIter(20);
 
-console.log(tree.find(10));
-console.log(tree.findIterative(10));
-console.log(tree.find(99));
-console.log(tree.findIterative(99));
+// console.log(tree.find(10));
+// console.log(tree.findIterative(10));
+// console.log(tree.find(99));
+// console.log(tree.findIterative(99));
 
-console.log(tree.bfs());
-console.log(tree.dfsPreOrder());
-console.log(tree.dfsPostOrder());
-console.log(tree.dfsInOrder());
+// console.log(tree.bfs());
+// console.log(tree.dfsPreOrder());
+// console.log(tree.dfsPostOrder());
+// console.log(tree.dfsInOrder());
+
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.children = [];
+  }
+
+  insert(newValue) {
+    let nodePath = newValue;
+    let path = nodePath.shift();
+    let node = this.includes(path);
+
+    if (!node) {
+      let newNode = new TreeNode(path);
+
+      if (nodePath.length > 0) {
+        newNode.insert(nodePath);
+      }
+
+      this.children.push(newNode);
+    } else {
+      node.insert(nodePath);
+    }
+  }
+
+  includes(searchValue) {
+    let node = false;
+
+    this.children.forEach((n) => {
+      if (n.value === searchValue) {
+        node = n;
+      }
+    });
+
+    return node;
+  }
+}
+class Tree {
+  constructor() {
+    this.root = null;
+    this.children = [];
+  }
+
+  insert(newValue) {
+    let nodePath = newValue.split('.');
+    let path = nodePath.shift();
+    let node = this.includes(path);
+
+    if (!node) {
+      let newNode = new TreeNode(path);
+
+      if (nodePath.length > 0) {
+        newNode.insert(nodePath);
+      }
+
+      this.children.push(newNode);
+    } else {
+      node.insert(nodePath);
+    }
+  }
+
+  includes(searchValue) {
+    let node = false;
+
+    this.children.forEach((n) => {
+      if (n.value === searchValue) {
+        node = n;
+      }
+    });
+
+    return node;
+  }
+}
+
+let wTree = new Tree();
+
+wTree.insert('Lorem');
+wTree.insert('Ipsum');
+wTree.insert('Dolor.Orci.Quis.Odio');
+wTree.insert('Sit.Amet');
+wTree.insert('Sit.Consectetur');
+wTree.insert('Adipiscing.Elit');
+wTree.insert('Adipiscing.Elit.Vestibulum');
+wTree.insert('Adipiscing.Elit.Vitae');
+
+console.log(JSON.stringify(wTree.children, null, 4));
