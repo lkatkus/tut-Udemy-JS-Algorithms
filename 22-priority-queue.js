@@ -23,7 +23,7 @@ class PriorityQueue {
     const parent = Math.floor((current - 1) / 2);
     const parentValue = this.values[parent];
 
-    if (currentValue.priority > parentValue?.priority) {
+    if (currentValue.priority < parentValue?.priority) {
       [this.values[current], this.values[parent]] = [
         this.values[parent],
         this.values[current],
@@ -41,15 +41,15 @@ class PriorityQueue {
     const rightValue = this.values[right];
 
     if (
-      current?.priority < leftValue?.priority &&
-      leftValue?.priority > rightValue?.priority
+      current?.priority > leftValue?.priority &&
+      leftValue?.priority < rightValue?.priority
     ) {
       [this.values[i], this.values[left]] = [this.values[left], this.values[i]];
 
       this.sinkDown(left);
 
       return;
-    } else if (current?.priority < rightValue?.priority) {
+    } else if (current?.priority > rightValue?.priority) {
       [this.values[i], this.values[right]] = [
         this.values[right],
         this.values[i],
@@ -61,7 +61,7 @@ class PriorityQueue {
 
   dequeue() {
     if (
-      this.values[0].priority > this.values[this.values.length - 1].priority
+      this.values[0].priority < this.values[this.values.length - 1].priority
     ) {
       [this.values[0], this.values[this.values.length - 1]] = [
         this.values[this.values.length - 1],
@@ -100,3 +100,5 @@ console.log(line.dequeue());
 console.log(line.dequeue());
 console.log(line.dequeue());
 console.log(line.dequeue());
+
+module.exports = { PriorityQueue };
